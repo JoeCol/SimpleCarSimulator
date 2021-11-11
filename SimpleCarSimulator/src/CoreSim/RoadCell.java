@@ -1,19 +1,19 @@
 package CoreSim;
 
-public class NonDrivingCell extends AbstractCell
+public class RoadCell extends AbstractCell
 {
-	private java.awt.Color visualColor;
-	
-	public NonDrivingCell()
+
+	public RoadCell()
 	{
-		super(CellType.ct_blank);
+		super(CellType.ct_road);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void stepSim()
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

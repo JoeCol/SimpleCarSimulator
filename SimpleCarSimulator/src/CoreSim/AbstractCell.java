@@ -14,13 +14,18 @@ enum CellType
 public abstract class AbstractCell 
 {
 	private CellType cellType;
-	public abstract CellType getCellType();
 	public abstract void stepSim();
+	public abstract void drawCell();
 	
 	public AbstractCell(CellType ct)
 	{
 		cellType = ct;
 	}
 	
-	public abstract void drawCell();
+	public CellType getCellType()
+	{
+		return cellType;
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package CoreSim;
+package core_car_sim;
 
 /*
  * Abstract cell of the car simulator

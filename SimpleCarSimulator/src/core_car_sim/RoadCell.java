@@ -1,4 +1,4 @@
-package CoreSim;
+package core_car_sim;
 
 import java.util.ArrayList;
 

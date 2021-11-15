@@ -1,6 +1,8 @@
 package core_car_sim;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 enum Direction
 {
@@ -103,7 +105,24 @@ public class WorldSim
 
 	private void carMovementPhase()
 	{
-		// TODO Auto-generated method stub
+		//Let car view world
+		HashMap<AbstractCar, ArrayList<Direction>> allRoutes = new HashMap<AbstractCar, ArrayList<Direction>>();
+		for (AbstractCar car : cars)
+		{
+			ArrayList<ArrayList<AbstractCell>> visibleWorld;
+			car.visibleWorldUpdate(visibleWorld);
+			ArrayList<Direction> route = car.getSimulationRoute();
+			allRoutes.put(car, route);
+		}
+		
+		//Check for invalid routes / crashes 
+		//for each route entry add position as key, then add car id as pair
+		HashMap<AbstractCar, Point> finalPositions = new HashMap<AbstractCar, Point>();
+		//Move to new position
+		for (AbstractCar car : cars)
+		{
+			car.setPosition(finalPositions.get(car));
+		}
 		
 	}
 

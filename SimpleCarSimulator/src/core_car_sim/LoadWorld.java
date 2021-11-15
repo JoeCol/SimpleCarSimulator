@@ -25,6 +25,7 @@ public class LoadWorld
 				{
 					switch (line.charAt(i))
 					{
+						default:
 						case '|':
 						case '-':
 							createdSim.addCell(new NonDrivingCell());

@@ -59,7 +59,8 @@ public class WorldSim
 			trackCellWidth = 0;
 			trackCellHeight++;
 		}
-		world.get(trackCellHeight).add(cell);
+		world.get(trackCellHeight - 1).add(cell);
+		trackCellWidth++;
 	}
 
 	public void addControlledCar(int nextInt)
@@ -109,7 +110,7 @@ public class WorldSim
 		HashMap<AbstractCar, ArrayList<Direction>> allRoutes = new HashMap<AbstractCar, ArrayList<Direction>>();
 		for (AbstractCar car : cars)
 		{
-			ArrayList<ArrayList<AbstractCell>> visibleWorld;
+			ArrayList<ArrayList<AbstractCell>> visibleWorld = getVisibleWorldForPosition(car.getCurrentPosition());
 			car.visibleWorldUpdate(visibleWorld);
 			ArrayList<Direction> route = car.getSimulationRoute();
 			allRoutes.put(car, route);
@@ -121,9 +122,14 @@ public class WorldSim
 		//Move to new position
 		for (AbstractCar car : cars)
 		{
-			car.setPosition(finalPositions.get(car));
+			car.setCurrentPosition(finalPositions.get(car));
 		}
 		
+	}
+
+	private ArrayList<ArrayList<AbstractCell>> getVisibleWorldForPosition(Point currentPosition) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void updateCells()
@@ -136,5 +142,10 @@ public class WorldSim
 			}
 		}
 		
+	}
+
+	public AbstractCell getCell(int x, int y) 
+	{
+		return world.get(y).get(x);
 	}
 }

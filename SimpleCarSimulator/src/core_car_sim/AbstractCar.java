@@ -10,6 +10,9 @@ public abstract class AbstractCar
 	private Point currentPosition;
 	private int speed; 
 	
+	protected abstract void visibleWorldUpdate(ArrayList<ArrayList<AbstractCell>> visibleWorld);
+	protected abstract ArrayList<Direction> getSimulationRoute();
+	
 	public AbstractCar(Point startPos, Point finishPosition, int startingSpeed)
 	{
 		finishedPosition = finishPosition;
@@ -32,15 +35,29 @@ public abstract class AbstractCar
 	{
 		currentPosition = startingPosition;
 	}
-	
-	public void setPosition(Point point) 
-	{
-		// TODO Auto-generated method stub
-		
+
+	public Point getStartingPosition() {
+		return startingPosition;
 	}
 
-	protected abstract void visibleWorldUpdate(ArrayList<ArrayList<AbstractCell>> visibleWorld);
+	public void setStartingPosition(Point startingPosition) {
+		this.startingPosition = startingPosition;
+	}
 
-	protected abstract ArrayList<Direction> getSimulationRoute();
+	public Point getFinishedPosition() {
+		return finishedPosition;
+	}
+
+	public void setFinishedPosition(Point finishedPosition) {
+		this.finishedPosition = finishedPosition;
+	}
+
+	public Point getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(Point currentPosition) {
+		this.currentPosition = currentPosition;
+	}
 
 }

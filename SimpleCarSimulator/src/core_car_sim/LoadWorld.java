@@ -3,9 +3,31 @@ package core_car_sim;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.Point;
 
 public class LoadWorld
 {
+	public static Direction charToDirection(char dir)
+	{
+		switch (dir)
+		{
+			case '>':
+				return Direction.east;
+			case '<':
+				return Direction.west;
+			case '^':
+				return Direction.north;
+			case 'V':
+				return Direction.south;
+		}
+		return null;
+	}
+	
+	public static Direction charToDirection(String dir)
+	{
+		return charToDirection(dir.charAt(0));
+	}
+	
 	public static WorldSim loadWorldFromFile(BufferedReader reader, CarAddedListener cal) throws IOException
 	{
 		WorldSim createdSim = new WorldSim();
@@ -30,16 +52,10 @@ public class LoadWorld
 						createdSim.addCell(new NonDrivingCell());
 						break;
 					case '>':
-						createdSim.addCell(new RoadCell(Direction.east, false, null, defaultSpeedLimit));
-						break;
 					case '<':
-						createdSim.addCell(new RoadCell(Direction.west, false, null, defaultSpeedLimit));
-						break;
 					case '^':
-						createdSim.addCell(new RoadCell(Direction.north, false, null, defaultSpeedLimit));
-						break;
 					case 'V':
-						createdSim.addCell(new RoadCell(Direction.south, false, null, defaultSpeedLimit));
+						createdSim.addCell(new RoadCell(charToDirection(line.charAt(i)), false, null, defaultSpeedLimit));
 						break;
 					case '+':
 						tmp.clear();
@@ -51,6 +67,25 @@ public class LoadWorld
 						break;
 				}
 			}
+		}
+		line = reader.readLine();
+		while (line != null)
+		{
+			String[] items = line.split(" ");
+			switch (items[0].toLowerCase())
+			{
+				case "trl":
+					int trlx = Integer.parseInt(items[1]);
+					int trly = Integer.parseInt(items[2]);
+					int stopsX = Integer.parseInt(items[3]);
+					int stopsY = Integer.parseInt(items[4]);
+					createdSim.replaceCell(new TrafficLightCell(charToDirection(items[5]), 3, new Point(stopsX, stopsY)), new Point(trlx, trly));
+					break;
+				case "car":
+					
+					break;
+			}
+			line = reader.readLine();
 		}
 		return createdSim;
 	}

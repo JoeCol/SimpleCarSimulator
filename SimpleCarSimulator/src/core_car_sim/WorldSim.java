@@ -148,4 +148,10 @@ public class WorldSim
 	{
 		return world.get(y).get(x);
 	}
+
+	public void replaceCell(TrafficLightCell trafficLightCell, Point point)
+	{
+		world.get(point.notify(), )
+		
+	}
 }

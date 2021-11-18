@@ -10,6 +10,6 @@
 |     ^     |
 |     ^     |
 -------------
-Car1
-6
-8
+TrL tl1 5 6 6 6 V
+Car testingCar 6 8 6 2
+Car AICar 4 12

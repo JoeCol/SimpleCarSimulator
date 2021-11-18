@@ -16,6 +16,13 @@ public abstract class AbstractInformationCell extends AbstractCell
 		visibleFrom = _visibleFrom;
 	}
 	
+	public AbstractInformationCell(Direction _faces, int _visibleFrom)
+	{
+		super(CellType.ct_information);
+		faces.add(_faces);
+		visibleFrom.add(_visibleFrom);
+	}
+
 	public int isVisibleFrom(Direction direction)
 	{
 		return Math.max(visibleFrom.get(faces.indexOf(direction)) - visibilityChange, 0); 

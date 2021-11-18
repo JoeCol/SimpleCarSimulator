@@ -1,6 +1,7 @@
 package core_car_sim;
 
 import java.util.ArrayList;
+import java.awt.*;
 
 /*
  * List of possible markings on the tarmac
@@ -19,6 +20,10 @@ enum RoadMarking
 public class RoadCell extends AbstractCell
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3908736198953808153L;
 	private ArrayList<Direction> travelDirection = new ArrayList<Direction>();
 	private boolean pavement;
 	private RoadMarking roadMarkings;
@@ -49,13 +54,6 @@ public class RoadCell extends AbstractCell
 		
 	}
 
-	@Override
-	public void drawCell()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 	public ArrayList<Direction> getTravelDirection()
 	{
 		return travelDirection;
@@ -75,5 +73,22 @@ public class RoadCell extends AbstractCell
 	{
 		return speedLimit;
 	}
-
+	
+	public void setMarking(RoadMarking rm)
+	{
+		roadMarkings = rm; 
+	}
+	
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		g.setColor(Color.GRAY);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.WHITE);
+		if (roadMarkings == RoadMarking.rm_HorizonalWhiteLine)
+		{	
+			g.drawLine(0, 1, getWidth(), 1);
+		}
+		g.drawString(travelDirection.get(0).toString(), 5, g.getFontMetrics().getHeight() + 2);
+	}
 }

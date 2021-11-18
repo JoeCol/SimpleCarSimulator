@@ -1,6 +1,5 @@
 package core_car_sim;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 public abstract class AbstractCar

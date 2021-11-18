@@ -1,8 +1,14 @@
 package core_car_sim;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class NonDrivingCell extends AbstractCell
 {
-	private java.awt.Color visualColor;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3155750680055909034L;
 	
 	public NonDrivingCell()
 	{
@@ -17,10 +23,10 @@ public class NonDrivingCell extends AbstractCell
 	}
 
 	@Override
-	public void drawCell()
+	public void paintComponent(Graphics g)
 	{
-		// TODO Auto-generated method stub
-		
+		g.setColor(Color.GREEN);
+		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
 }

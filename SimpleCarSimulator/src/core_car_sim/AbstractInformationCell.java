@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public abstract class AbstractInformationCell extends AbstractCell
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6253765837690795987L;
 	private ArrayList<Direction> faces = new ArrayList<Direction>();//Which way the information faces
 	private ArrayList<Integer> visibleFrom = new ArrayList<Integer>();
 	private int visibilityChange = 0;

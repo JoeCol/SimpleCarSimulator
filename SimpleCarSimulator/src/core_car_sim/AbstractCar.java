@@ -2,21 +2,23 @@ package core_car_sim;
 
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
+import java.awt.Canvas;
+
 public abstract class AbstractCar
 {
 	private Point startingPosition;
-	private Point finishedPosition;
-	private Point currentPosition;
-	private int speed; 
+	private int speed;
+	protected ImageIcon carIcon = null;
 	
-	protected abstract void visibleWorldUpdate(ArrayList<ArrayList<AbstractCell>> visibleWorld);
+	protected abstract void visibleWorldUpdate(AbstractCell[][] visibleWorld);
 	protected abstract ArrayList<Direction> getSimulationRoute();
+	protected abstract boolean isFinished(Point point);
 	
-	public AbstractCar(Point startPos, Point finishPosition, int startingSpeed)
+	public AbstractCar(Point startPos, int startingSpeed)
 	{
-		finishedPosition = finishPosition;
 		startingPosition = startPos;
-		currentPosition = startPos;
 		speed = startingSpeed;
 	}
 	
@@ -30,11 +32,6 @@ public abstract class AbstractCar
 		this.speed = speed;
 	}
 
-	public void resetPosition()
-	{
-		currentPosition = startingPosition;
-	}
-
 	public Point getStartingPosition() {
 		return startingPosition;
 	}
@@ -42,21 +39,10 @@ public abstract class AbstractCar
 	public void setStartingPosition(Point startingPosition) {
 		this.startingPosition = startingPosition;
 	}
-
-	public Point getFinishedPosition() {
-		return finishedPosition;
-	}
-
-	public void setFinishedPosition(Point finishedPosition) {
-		this.finishedPosition = finishedPosition;
-	}
-
-	public Point getCurrentPosition() {
-		return currentPosition;
-	}
-
-	public void setCurrentPosition(Point currentPosition) {
-		this.currentPosition = currentPosition;
+	
+	public ImageIcon getCarIcon()
+	{
+		return carIcon;
 	}
 
 }

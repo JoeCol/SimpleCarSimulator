@@ -3,6 +3,7 @@ package core_car_sim;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LoadWorld
 {
@@ -81,7 +82,14 @@ public class LoadWorld
 					//((RoadCell)createdSim.getCell(stopsX, stopsY)).setMarking(RoadMarking.rm_HorizonalWhiteLine);
 					break;
 				case "car":
-					
+					if (items.length > 4)
+					{
+						createdSim.addCar(items[1], new Point(Integer.parseInt(items[2]), Integer.parseInt(items[3])));
+					}
+					else
+					{
+						createdSim.addCar(items[1], new Point(Integer.parseInt(items[2]), Integer.parseInt(items[3])), Arrays.copyOfRange(items, 4, items.length));
+					}
 					break;
 			}
 			line = reader.readLine();

@@ -17,7 +17,8 @@ public abstract class AbstractCell extends JPanel
 	{
 		ct_blank, //Non drivable
 		ct_road, //Drivable
-		ct_information //Traffic lights, road signs etc
+		ct_information, //Traffic lights, road signs etc
+		ct_non_visible
 	}
 	private CellType cellType;
 	public abstract void stepSim();

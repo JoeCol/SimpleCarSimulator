@@ -17,6 +17,8 @@ import javax.swing.SpinnerNumberModel;
 
 import core_car_sim.LoadWorld;
 import core_car_sim.WorldSim;
+import core_car_sim.AbstractCar;
+import core_car_sim.CarAddedListener;
 
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -28,24 +30,35 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 
-public class CarSimGUI {
-
+public class CarSimGUI
+{
 	public class Simulate extends TimerTask
 	{
 		@Override
 		public void run()
 		{
-			if (currentlySimulated < simulateLimit)
+			if (simulateLimit != 0)
 			{
-				currentlySimulated++;
-				simworld.simulate(1);
-				pnlWorld.revalidate();
-				pnlWorld.repaint();
-				lblNewLabel.setText("" + currentlySimulated);
+				if (currentlySimulated < simulateLimit)
+				{
+					currentlySimulated++;
+					simworld.simulate(1);
+					pnlWorld.revalidate();
+					pnlWorld.repaint();
+					lblNewLabel.setText("" + currentlySimulated);
+				}
+				else
+				{
+					simTimer.cancel();
+				}
 			}
 			else
 			{
-				simTimer.cancel();
+				simworld.simulate(1);
+				if (simworld.allFinished())
+				{
+					simTimer.cancel();
+				}
 			}
 		}
 		
@@ -59,6 +72,7 @@ public class CarSimGUI {
 	private Timer simTimer;
 	private int currentlySimulated = 0;
 	private int simulateLimit;
+	private CarAddedListener cal;
 
 	/**
 	 * Launch the application.
@@ -81,6 +95,21 @@ public class CarSimGUI {
 	 */
 	public CarSimGUI() {
 		initialize();
+		cal = new CarAddedListener() {
+			@Override
+			public AbstractCar createCar(String name)
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+	
+			@Override
+			public AbstractCar createCar(String name, String[] information)
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 	}
 
 	/**
@@ -128,7 +157,7 @@ public class CarSimGUI {
 					if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
 					{
 						BufferedReader br = new BufferedReader(new FileReader(loadWorldDialog.getSelectedFile()));
-						simworld = LoadWorld.loadWorldFromFile(br, null);
+						simworld = LoadWorld.loadWorldFromFile(br, cal);
 						generateGUIWorld();
 					}
 				} catch (IOException e1) {
@@ -143,15 +172,15 @@ public class CarSimGUI {
 			{
 				if (rdbtnNewRadioButton.isSelected())
 				{
-					
+					simulateLimit = 0;
 				}
 				else
 				{
-					currentlySimulated = 0;
 					simulateLimit = (Integer)spinner.getValue();
-					simTimer = new Timer();
-					simTimer.schedule(new Simulate(), 0, 1000);//Once every second
 				}
+				currentlySimulated = 0;
+				simTimer = new Timer();
+				simTimer.schedule(new Simulate(), 0, 1000);//Once every second
 			}
 		});
 	}
@@ -169,5 +198,7 @@ public class CarSimGUI {
 		pnlWorld.revalidate();
 		pnlWorld.repaint();
 	}
+
+	
 
 }

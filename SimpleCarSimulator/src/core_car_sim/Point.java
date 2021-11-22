@@ -1,6 +1,6 @@
 package core_car_sim;
 
-public class Point
+public class Point implements Comparable<Point>
 {
 	private int x;
 	private int y;
@@ -29,5 +29,14 @@ public class Point
 	public void setY(int y)
 	{
 		this.y = y;
+	}
+
+	@Override
+	public int compareTo(Point p) {
+		if (x != p.getX())
+		{
+			return Integer.compare(x, p.getX());
+		}
+		return Integer.compare(y, p.getY());
 	}
 }

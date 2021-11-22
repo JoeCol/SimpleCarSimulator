@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import java.awt.Canvas;
-
 public abstract class AbstractCar
 {
 	private Point startingPosition;
@@ -16,10 +14,11 @@ public abstract class AbstractCar
 	protected abstract ArrayList<Direction> getSimulationRoute();
 	protected abstract boolean isFinished(Point point);
 	
-	public AbstractCar(Point startPos, int startingSpeed)
+	public AbstractCar(Point startPos, int startingSpeed, String fileImage)
 	{
 		startingPosition = startPos;
 		speed = startingSpeed;
+		carIcon = new ImageIcon(fileImage);
 	}
 	
 	public int getSpeed()

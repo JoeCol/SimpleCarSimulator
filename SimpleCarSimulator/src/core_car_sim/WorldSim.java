@@ -136,7 +136,7 @@ public class WorldSim
 	{
 		for (CarAddedListener cal : carAddedListeners)
 		{
-			AbstractCar createdCar = cal.createCar(name);
+			AbstractCar createdCar = cal.createCar(name, point);
 			cars.add(createdCar);
 			carPositions.put(createdCar, point);
 		}
@@ -146,7 +146,7 @@ public class WorldSim
 	{
 		for (CarAddedListener cal : carAddedListeners)
 		{
-			AbstractCar createdCar = cal.createCar(name, info);
+			AbstractCar createdCar = cal.createCar(name, point, info);
 			cars.add(createdCar);
 			carPositions.put(createdCar, point);
 		}
@@ -163,5 +163,15 @@ public class WorldSim
 			}
 		}
 		return true;
+	}
+
+	public ArrayList<AbstractCar> getCars() 
+	{
+		return cars;
+	}
+
+	public Point getCarPosition(AbstractCar car) 
+	{
+		return carPositions.get(car);
 	}
 }

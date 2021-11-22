@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import core_car_sim.AbstractCar;
 import core_car_sim.AbstractCell;
+import core_car_sim.AbstractCell.CellType;
 import core_car_sim.Direction;
 import core_car_sim.Point;
 
@@ -12,12 +13,14 @@ public class ExampleTestingCar extends AbstractCar
 {
 	boolean trafficLightRed;
 	boolean atWhiteLine;
+	Point finishedLocation;
 	
 	ArrayList<Direction> directions = new ArrayList<Direction>();
 	
-	public ExampleTestingCar(Point startPos)
+	public ExampleTestingCar(Point startPos, String imageLoc, Point finishLoca)
 	{
-		super(startPos, 0);
+		super(startPos, 0, imageLoc);
+		finishedLocation = finishLoca;
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class ExampleTestingCar extends AbstractCar
 		{
 			for (int y = 0; y < visibleWorld[x].length; y++)
 			{
-				if (visibleWorld[x][y].getCellType() == ct_information)
+				if (visibleWorld[x][y].getCellType() == CellType.ct_information)
 				{
 					
 				}
@@ -52,8 +55,7 @@ public class ExampleTestingCar extends AbstractCar
 	@Override
 	protected boolean isFinished(Point point)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return point == finishedLocation;
 	}
 
 }

@@ -1,10 +1,6 @@
 package examples;
 
-import java.awt.Canvas;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import core_car_sim.AbstractCar;
 import core_car_sim.AbstractCell;
@@ -13,11 +9,11 @@ import core_car_sim.Point;
 
 public class ExampleAICar extends AbstractCar
 {
-	private ArrayList<Direction> goLeft;
+	private ArrayList<Direction> goLeft = new ArrayList<Direction>();
 
-	public ExampleAICar(Point startPos)
+	public ExampleAICar(Point startPos, String imageLoc)
 	{
-		super(startPos, 2);
+		super(startPos, 2, imageLoc);
 		goLeft.add(Direction.west);
 		goLeft.add(Direction.west);
 	}

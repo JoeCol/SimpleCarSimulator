@@ -16,7 +16,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import core_car_sim.LoadWorld;
+import core_car_sim.Point;
 import core_car_sim.WorldSim;
+import examples.ExampleAICar;
+import examples.ExampleTestingCar;
 import core_car_sim.AbstractCar;
 import core_car_sim.CarAddedListener;
 
@@ -97,17 +100,19 @@ public class CarSimGUI
 		initialize();
 		cal = new CarAddedListener() {
 			@Override
-			public AbstractCar createCar(String name)
+			public AbstractCar createCar(String name, Point startingLoca)
 			{
-				// TODO Auto-generated method stub
-				return null;
+				//AI controlled car (car not tested)
+				return new ExampleAICar(startingLoca, System.getProperty("user.dir") + "\\resources\\bluecar.png");
 			}
 	
 			@Override
-			public AbstractCar createCar(String name, String[] information)
+			public AbstractCar createCar(String name, Point startingLoca, String[] information)
 			{
-				// TODO Auto-generated method stub
-				return null;
+				Point finishLocation = new Point(0,0);
+				finishLocation.setX(Integer.parseInt(information[0]));
+				finishLocation.setY(Integer.parseInt(information[1]));
+				return new ExampleTestingCar(startingLoca, System.getProperty("user.dir") + "\\resources\\redcar.png", finishLocation);
 			}
 		};
 	}
@@ -154,12 +159,17 @@ public class CarSimGUI
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+					/*if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
 					{
 						BufferedReader br = new BufferedReader(new FileReader(loadWorldDialog.getSelectedFile()));
 						simworld = LoadWorld.loadWorldFromFile(br, cal);
 						generateGUIWorld();
-					}
+					}*/
+					//While testing
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\bin\\examples\\ExampleWorldFile.txt"));
+					simworld = LoadWorld.loadWorldFromFile(br, cal);
+					generateGUIWorld();
+					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -194,6 +204,13 @@ public class CarSimGUI
 			{
 				pnlWorld.add(simworld.getCell(x, y));
 			}
+		}
+		for (AbstractCar car : simworld.getCars())
+		{
+			Point p = simworld.getCarPosition(car);
+			JLabel icon = new JLabel(car.getCarIcon());
+			icon.setSize(simworld.getCell(p.getX(), p.getY()).getWidth(), simworld.getCell(p.getX(), p.getY()).getHeight());
+			simworld.getCell(p.getX(), p.getY()).add(icon);
 		}
 		pnlWorld.revalidate();
 		pnlWorld.repaint();

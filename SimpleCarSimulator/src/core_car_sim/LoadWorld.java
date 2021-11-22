@@ -82,7 +82,7 @@ public class LoadWorld
 					//((RoadCell)createdSim.getCell(stopsX, stopsY)).setMarking(RoadMarking.rm_HorizonalWhiteLine);
 					break;
 				case "car":
-					if (items.length > 4)
+					if (items.length <= 4)
 					{
 						createdSim.addCar(items[1], new Point(Integer.parseInt(items[2]), Integer.parseInt(items[3])));
 					}

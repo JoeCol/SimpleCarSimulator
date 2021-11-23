@@ -29,4 +29,10 @@ public class NonDrivingCell extends AbstractCell
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
+	@Override
+	public boolean isDriveable()
+	{
+		return false;
+	}
+
 }

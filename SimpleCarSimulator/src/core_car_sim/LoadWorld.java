@@ -30,31 +30,31 @@ public class LoadWorld
 	
 	public static WorldSim loadWorldFromFile(BufferedReader reader, CarAddedListener cal) throws IOException
 	{
-		String x = reader.readLine();
-		String y = reader.readLine();
-		WorldSim createdSim = new WorldSim(Integer.parseInt(x), Integer.parseInt(y));
+		String widthStr = reader.readLine();
+		String heightStr = reader.readLine();
+		WorldSim createdSim = new WorldSim(Integer.parseInt(widthStr), Integer.parseInt(heightStr));
 		createdSim.addCarAddedListener(cal);
 		int defaultSpeedLimit = Integer.parseInt(reader.readLine());
 		createdSim.setDefaultSpeedLimit(defaultSpeedLimit);
 		String line;
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
-		for (int row = 0; row < createdSim.getHeight(); row++)
+		for (int y = 0; y < createdSim.getHeight(); y++)
 		{
 			line = reader.readLine();
-			for (int col = 0; col < createdSim.getWidth(); col++)
+			for (int x = 0; x < createdSim.getWidth(); x++)
 			{
-				switch (line.charAt(col))
+				switch (line.charAt(x))
 				{
 					default:
 					case '|':
 					case '-':
-						createdSim.setCell(new NonDrivingCell(), col, row);
+						createdSim.setCell(new NonDrivingCell(), x, y);
 						break;
 					case '>':
 					case '<':
 					case '^':
 					case 'V':
-						createdSim.setCell(new RoadCell(charToDirection(line.charAt(col)), false, null, defaultSpeedLimit), col, row);
+						createdSim.setCell(new RoadCell(charToDirection(line.charAt(x)), false, null, defaultSpeedLimit), x, y);
 						break;
 					case '+':
 						tmp.clear();
@@ -62,7 +62,7 @@ public class LoadWorld
 						tmp.add(Direction.south);
 						tmp.add(Direction.east);
 						tmp.add(Direction.west);
-						createdSim.setCell(new RoadCell(tmp, false, null, defaultSpeedLimit), col, row);
+						createdSim.setCell(new RoadCell(tmp, false, null, defaultSpeedLimit), x, y);
 						break;
 				}
 			}
@@ -78,7 +78,7 @@ public class LoadWorld
 					int trly = Integer.parseInt(items[3]);
 					int stopsX = Integer.parseInt(items[4]);
 					int stopsY = Integer.parseInt(items[5]);
-					createdSim.setCell(new TrafficLightCell(charToDirection(items[6]), 3, new Point(stopsX, stopsY)), new Point(trlx, trly));
+					createdSim.setCell(new TrafficLightCell(charToDirection(items[6]), 3, new Point(stopsX, stopsY), new Point(trlx - stopsX, trly - stopsY)), new Point(trlx, trly));
 					//((RoadCell)createdSim.getCell(stopsX, stopsY)).setMarking(RoadMarking.rm_HorizonalWhiteLine);
 					break;
 				case "car":

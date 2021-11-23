@@ -1,6 +1,6 @@
 package examples;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 
 import core_car_sim.AbstractCar;
 import core_car_sim.AbstractCell;
@@ -9,24 +9,24 @@ import core_car_sim.Point;
 
 public class ExampleAICar extends AbstractCar
 {
-	private ArrayList<Direction> goLeft = new ArrayList<Direction>();
+	private ArrayDeque<Direction> goLeft = new ArrayDeque<Direction>();
 
 	public ExampleAICar(Point startPos, String imageLoc)
 	{
 		super(startPos, 2, imageLoc);
-		goLeft.add(Direction.west);
-		goLeft.add(Direction.west);
 	}
 
 	@Override
-	protected void visibleWorldUpdate(AbstractCell[][] visibleWorld)
+	protected void visibleWorldUpdate(AbstractCell[][] visibleWorld, Point location)
 	{
 		//Ignore everything
 	}
 
 	@Override
-	protected ArrayList<Direction> getSimulationRoute()
+	protected ArrayDeque<Direction> getSimulationRoute()
 	{
+		goLeft.push(Direction.west);
+		goLeft.push(Direction.west);
 		return goLeft;
 	}
 
@@ -34,7 +34,7 @@ public class ExampleAICar extends AbstractCar
 	protected boolean isFinished(Point point)
 	{
 		// Dont care where the car is when finished
-		return true;
+		return false;
 	}
 
 }

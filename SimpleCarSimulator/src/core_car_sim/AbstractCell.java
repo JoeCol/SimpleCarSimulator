@@ -22,6 +22,7 @@ public abstract class AbstractCell extends JPanel
 	}
 	private CellType cellType;
 	public abstract void stepSim();
+	public abstract boolean isDriveable();
 	
 	public AbstractCell(CellType ct)
 	{

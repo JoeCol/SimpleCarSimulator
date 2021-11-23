@@ -29,39 +29,43 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 
 public class CarSimGUI
 {
-	public class Simulate extends TimerTask
+	public class Simulate implements Runnable
 	{
+		int delay = 0;
+		int until = 0;
+		int stepsSimulated = 0;
+		public Simulate(int delayTime, int noOfSteps)
+		{
+			delay = delayTime;
+			until = noOfSteps;
+		}
+		
 		@Override
 		public void run()
 		{
-			if (simulateLimit != 0)
-			{
-				if (currentlySimulated < simulateLimit)
-				{
-					currentlySimulated++;
-					simworld.simulate(1);
-					pnlWorld.revalidate();
-					pnlWorld.repaint();
-					lblNewLabel.setText("" + currentlySimulated);
-				}
-				else
-				{
-					simTimer.cancel();
-				}
-			}
-			else
+			int i = 0;
+			boolean finished = false;
+			while (!finished)
 			{
 				simworld.simulate(1);
-				if (simworld.allFinished())
+				try
 				{
-					simTimer.cancel();
+					Thread.sleep(delay);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
 				}
+				updateGUIWorld();
+				lblNewLabel.setText("Steps simulated: " + ++stepsSimulated);
+				finished = until == 0 ? simworld.allFinished() : until == ++i;
 			}
 		}
 		
@@ -72,9 +76,8 @@ public class CarSimGUI
 	private JFileChooser loadWorldDialog = new JFileChooser();
 	private WorldSim simworld;
 	private JPanel pnlWorld = new JPanel();
-	private Timer simTimer;
 	private int currentlySimulated = 0;
-	private int simulateLimit;
+	private Executor simulationThread = Executors.newSingleThreadExecutor();
 	private CarAddedListener cal;
 
 	/**
@@ -103,7 +106,7 @@ public class CarSimGUI
 			public AbstractCar createCar(String name, Point startingLoca)
 			{
 				//AI controlled car (car not tested)
-				return new ExampleAICar(startingLoca, System.getProperty("user.dir") + "\\resources\\bluecar.png");
+				return new ExampleAICar(startingLoca, System.getProperty("user.dir") + "/resources/bluecar.png");
 			}
 	
 			@Override
@@ -112,7 +115,7 @@ public class CarSimGUI
 				Point finishLocation = new Point(0,0);
 				finishLocation.setX(Integer.parseInt(information[0]));
 				finishLocation.setY(Integer.parseInt(information[1]));
-				return new ExampleTestingCar(startingLoca, System.getProperty("user.dir") + "\\resources\\redcar.png", finishLocation);
+				return new ExampleTestingCar(startingLoca, System.getProperty("user.dir") + "/resources/redcar.png", finishLocation);
 			}
 		};
 	}
@@ -166,9 +169,10 @@ public class CarSimGUI
 						generateGUIWorld();
 					}*/
 					//While testing
-					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\bin\\examples\\ExampleWorldFile.txt"));
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/bin/examples/ExampleWorldFile.txt"));
 					simworld = LoadWorld.loadWorldFromFile(br, cal);
-					generateGUIWorld();
+					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
+					updateGUIWorld();
 					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -180,28 +184,27 @@ public class CarSimGUI
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				
 				if (rdbtnNewRadioButton.isSelected())
 				{
-					simulateLimit = 0;
+					simulationThread.execute(new Simulate(250, 0));
 				}
 				else
 				{
-					simulateLimit = (Integer)spinner.getValue();
+					simulationThread.execute(new Simulate(250, (Integer)spinner.getValue()));
 				}
-				currentlySimulated = 0;
-				simTimer = new Timer();
-				simTimer.schedule(new Simulate(), 0, 1000);//Once every second
 			}
 		});
 	}
 	
-	private void generateGUIWorld()
+	private void updateGUIWorld()
 	{
-		pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
+		pnlWorld.removeAll();
 		for (int y = 0; y < simworld.getHeight(); y++)
 		{
 			for (int x = 0; x < simworld.getWidth(); x++)
 			{
+				simworld.getCell(x, y).removeAll();
 				pnlWorld.add(simworld.getCell(x, y));
 			}
 		}

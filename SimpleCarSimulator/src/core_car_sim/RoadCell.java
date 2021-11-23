@@ -91,4 +91,10 @@ public class RoadCell extends AbstractCell
 		}
 		g.drawString(travelDirection.get(0).toString(), 5, g.getFontMetrics().getHeight() + 2);
 	}
+
+	@Override
+	public boolean isDriveable()
+	{
+		return true;
+	}
 }

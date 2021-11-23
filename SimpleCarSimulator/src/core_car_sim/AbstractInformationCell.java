@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 public abstract class AbstractInformationCell extends AbstractCell
 {
-
+	public enum InformationCell
+	{
+		ic_trafficLight
+	}
 	/**
 	 * 
 	 */
@@ -37,6 +40,13 @@ public abstract class AbstractInformationCell extends AbstractCell
 		visibilityChange = amount;
 	}
 	
+	@Override
+	public boolean isDriveable()
+	{
+		return false;
+	}
+	
 	public abstract Object getInformation();
+	public abstract InformationCell getInformationType();
 
 }

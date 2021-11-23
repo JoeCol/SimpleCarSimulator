@@ -39,4 +39,46 @@ public class Point implements Comparable<Point>
 		}
 		return Integer.compare(y, p.getY());
 	}
+
+	public void moveDirection(Direction nextDirection)
+	{
+		switch (nextDirection)
+		{
+			case east:
+				x++;
+				break;
+			case north:
+				y--;
+				break;
+			case south:
+				y++;
+				break;
+			case west:
+				x--;
+				break;
+		}
+	}
+
+	//Loop around
+	public void moveDirection(Direction nextDirection, int width, int height)
+	{
+		moveDirection(nextDirection);
+		if (x < 0)
+		{
+			x = width - 1;
+		}
+		else if (x >= width)
+		{
+			x = 0;
+		}
+		
+		if (y < 0)
+		{
+			y = height - 1;
+		}
+		else if (y >= height)
+		{
+			y = 0;
+		}
+	}
 }

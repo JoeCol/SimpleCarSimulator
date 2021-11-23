@@ -15,16 +15,18 @@ public class TrafficLightCell extends AbstractInformationCell
 		public boolean yellowOn = false;
 		public boolean greenOn = false;
 		public Point stopAt;
+		public Point stopAtReference;
 	}
 	
 	private TrafficLightCellInformation lightSituation = new TrafficLightCellInformation();
-	private int timeToChange = 2;
+	private int timeToChange = 4;
 	private int currentTime = 0;
 	
-	public TrafficLightCell(Direction _faces, int _visibleFrom, Point roadEffectLocation)
+	public TrafficLightCell(Direction _faces, int _visibleFrom, Point roadEffectLocation, Point roadEffectReference)
 	{
 		super(_faces, _visibleFrom);
 		lightSituation.stopAt = roadEffectLocation;
+		lightSituation.stopAtReference = roadEffectReference;
 	}
 	
 	@Override
@@ -81,6 +83,12 @@ public class TrafficLightCell extends AbstractInformationCell
 			g.setColor(Color.BLUE);
 		}
 		g.fillOval(0, 0, getWidth()-1, getHeight()-1);
+	}
+
+	@Override
+	public InformationCell getInformationType()
+	{
+		return InformationCell.ic_trafficLight;
 	}
 
 }

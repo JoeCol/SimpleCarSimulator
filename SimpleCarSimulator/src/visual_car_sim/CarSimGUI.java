@@ -1,38 +1,34 @@
 package visual_car_sim;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import core_car_sim.AbstractCar;
+import core_car_sim.CarAddedListener;
 import core_car_sim.LoadWorld;
 import core_car_sim.Point;
 import core_car_sim.WorldSim;
 import examples.ExampleAICar;
 import examples.ExampleTestingCar;
-import core_car_sim.AbstractCar;
-import core_car_sim.CarAddedListener;
-
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 
 
 public class CarSimGUI
@@ -162,17 +158,18 @@ public class CarSimGUI
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					/*if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+					if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
 					{
 						BufferedReader br = new BufferedReader(new FileReader(loadWorldDialog.getSelectedFile()));
 						simworld = LoadWorld.loadWorldFromFile(br, cal);
-						generateGUIWorld();
-					}*/
+						updateGUIWorld();
+					}
 					//While testing
+					/*
 					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/bin/examples/ExampleWorldFile.txt"));
 					simworld = LoadWorld.loadWorldFromFile(br, cal);
 					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
-					updateGUIWorld();
+					updateGUIWorld();*/
 					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

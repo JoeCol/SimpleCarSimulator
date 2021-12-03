@@ -147,7 +147,7 @@ public class WorldSim
 					}
 					else
 					{
-						worldX = (worldX < 0) ? world.length + worldX : worldX % world[0].length;
+						worldX = (worldX < 0) ? world[0].length + worldX : worldX % world[0].length;
 						worldY = (worldY < 0) ? world.length + worldY : worldY % world.length;
 						visWorld[y+visability][x+visability] = getCell(worldX, worldY);
 					}

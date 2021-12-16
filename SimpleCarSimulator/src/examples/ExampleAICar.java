@@ -3,9 +3,9 @@ package examples;
 import java.util.ArrayDeque;
 
 import core_car_sim.AbstractCar;
-import core_car_sim.AbstractCell;
 import core_car_sim.Direction;
 import core_car_sim.Point;
+import core_car_sim.WorldSim;
 
 public class ExampleAICar extends AbstractCar
 {
@@ -14,12 +14,6 @@ public class ExampleAICar extends AbstractCar
 	public ExampleAICar(Point startPos, String imageLoc)
 	{
 		super(startPos, 2, imageLoc);
-	}
-
-	@Override
-	protected void visibleWorldUpdate(AbstractCell[][] visibleWorld, Point location)
-	{
-		//Ignore everything
 	}
 
 	@Override
@@ -35,6 +29,13 @@ public class ExampleAICar extends AbstractCar
 	{
 		// Dont care where the car is when finished
 		return false;
+	}
+
+	@Override
+	protected void visibleWorldUpdate(WorldSim visibleWorld, Point location)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

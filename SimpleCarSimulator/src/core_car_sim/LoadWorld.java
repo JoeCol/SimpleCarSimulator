@@ -35,7 +35,6 @@ public class LoadWorld
 		WorldSim createdSim = new WorldSim(Integer.parseInt(widthStr), Integer.parseInt(heightStr));
 		createdSim.addCarAddedListener(cal);
 		int defaultSpeedLimit = Integer.parseInt(reader.readLine());
-		createdSim.setDefaultSpeedLimit(defaultSpeedLimit);
 		String line;
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
 		for (int y = 0; y < createdSim.getHeight(); y++)

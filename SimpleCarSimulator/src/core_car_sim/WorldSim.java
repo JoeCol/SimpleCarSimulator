@@ -5,6 +5,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import core_car_sim.AbstractCell.CellType;
+
 public class WorldSim
 {
 	private AbstractCell[][] world;
@@ -14,14 +16,12 @@ public class WorldSim
 	private int width;
 	private int height;
 	private int visability = 3;
-	
-	private int defaultSpeedLimit = 1; //Measured in squares per sim step
 
 	public WorldSim(int x, int y)
 	{
 		width = x;
 		height = y;
-		world = new AbstractCell[y][x];
+		world = new AbstractCell[x][y];
 	}
 
 	public int getWidth()
@@ -37,11 +37,6 @@ public class WorldSim
 	public void addCarAddedListener(CarAddedListener cal)
 	{
 		carAddedListeners.add(cal);
-	}
-
-	public void setDefaultSpeedLimit(int _defaultSpeedLimit)
-	{
-		defaultSpeedLimit = _defaultSpeedLimit;
 	}
 	
 	public void resetCarPositions()
@@ -60,6 +55,27 @@ public class WorldSim
 			carMovementPhase();
 		}
 	}
+	
+	public int speedLimit(int x, int y)
+	{
+		if (getCell(x, y).getCellType() == CellType.ct_road)
+		{
+			return ((RoadCell)getCell(x, y)).getSpeedLimit();
+		}
+		return 0;
+	}
+	
+	public boolean containsCar(int x, int y)
+	{
+		for (Point p : carPositions.values())
+		{
+			if (p.getX() ==  x && p.getY() == y)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private void carMovementPhase()
 	{
@@ -69,7 +85,7 @@ public class WorldSim
 		{
 			if (!car.isCrashed())
 			{
-				AbstractCell[][] visibleWorld = getVisibleWorldForPosition(carPositions.get(car), true);
+				WorldSim visibleWorld = getVisibleWorldForPosition(carPositions.get(car), true);
 				Point carReferencePoint = new Point(visability,visability);
 				car.visibleWorldUpdate(visibleWorld, carReferencePoint);
 				Deque<Direction> route = car.getSimulationRoute();
@@ -128,9 +144,12 @@ public class WorldSim
 	}
 
 	
-	private AbstractCell[][] getVisibleWorldForPosition(Point currentPosition, boolean looped)
+	private WorldSim getVisibleWorldForPosition(Point currentPosition, boolean looped)
 	{
-		AbstractCell[][] visWorld = new AbstractCell[(visability * 2) + 1][(visability * 2) + 1];
+		WorldSim visWorld = new WorldSim((visability * 2) + 1,(visability * 2) + 1);
+		visWorld.carAddedListeners = carAddedListeners;
+		visWorld.cars = cars;
+		visWorld.carPositions = carPositions;
 		int worldX;
 		int worldY;
 		for (int x = 0-visability; x <= visability; x++)
@@ -139,22 +158,22 @@ public class WorldSim
 			{
 				worldX = currentPosition.getX() + x;
 				worldY = currentPosition.getY() + y;
-				if (worldX < 0 || worldX >= world[0].length || worldY < 0 || worldY >= world.length)
+				if (worldX < 0 || worldX >= getWidth() || worldY < 0 || worldY >= getHeight())
 				{
 					if (!looped)
 					{
-						visWorld[y+visability][x+visability] = new NonVisibleCell();
+						visWorld.setCell(new NonVisibleCell(), y+visability, x+visability);
 					}
 					else
 					{
-						worldX = (worldX < 0) ? world[0].length + worldX : worldX % world[0].length;
-						worldY = (worldY < 0) ? world.length + worldY : worldY % world.length;
-						visWorld[y+visability][x+visability] = getCell(worldX, worldY);
+						worldX = (worldX < 0) ? getWidth() + worldX : worldX % getWidth();
+						worldY = (worldY < 0) ? getHeight() + worldY : worldY % getHeight();
+						visWorld.setCell(getCell(worldX, worldY), y+visability, x+visability);
 					}
 				}
 				else
 				{
-					visWorld[y+visability][x+visability] = getCell(worldX, worldY);
+					visWorld.setCell(getCell(worldX, worldY), y+visability, x+visability);
 				}
 			}
 		}
@@ -175,17 +194,17 @@ public class WorldSim
 
 	public AbstractCell getCell(int x, int y) 
 	{
-		return world[y][x];
+		return world[x][y];
 	}
 
 	public void setCell(AbstractCell cell, Point pt)
 	{
-		world[pt.getY()][pt.getX()] = cell;
+		setCell(cell, pt.getX(), pt.getY());
 	}
 	
 	public void setCell(AbstractCell cell, int x, int y)
 	{
-		world[y][x] = cell;
+		world[x][y] = cell;
 	}
 
 	public void addCar(String name, Point point)

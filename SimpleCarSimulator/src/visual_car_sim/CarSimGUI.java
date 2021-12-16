@@ -72,7 +72,6 @@ public class CarSimGUI
 	private JFileChooser loadWorldDialog = new JFileChooser();
 	private WorldSim simworld;
 	private JPanel pnlWorld = new JPanel();
-	private int currentlySimulated = 0;
 	private Executor simulationThread = Executors.newSingleThreadExecutor();
 	private CarAddedListener cal;
 
@@ -158,18 +157,18 @@ public class CarSimGUI
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					/*if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+					if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
 					{
 						BufferedReader br = new BufferedReader(new FileReader(loadWorldDialog.getSelectedFile()));
 						simworld = LoadWorld.loadWorldFromFile(br, cal);
 						updateGUIWorld();
-					}*/
+					}
 					//While testing
-					
+					/*
 					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/bin/examples/ExampleWorldFile.txt"));
 					simworld = LoadWorld.loadWorldFromFile(br, cal);
 					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
-					updateGUIWorld();
+					updateGUIWorld();*/
 					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

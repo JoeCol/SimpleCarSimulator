@@ -3,11 +3,11 @@ package examples;
 import java.util.ArrayDeque;
 
 import core_car_sim.AbstractCar;
-import core_car_sim.AbstractCell;
 import core_car_sim.AbstractCell.CellType;
 import core_car_sim.AbstractInformationCell;
 import core_car_sim.AbstractInformationCell.InformationCell;
 import core_car_sim.TrafficLightCell.TrafficLightCellInformation;
+import core_car_sim.WorldSim;
 import core_car_sim.Direction;
 import core_car_sim.Point;
 import core_car_sim.TrafficLightCell;
@@ -29,17 +29,17 @@ public class ExampleTestingCar extends AbstractCar
 	}
 
 	@Override
-	protected void visibleWorldUpdate(AbstractCell[][] visibleWorld, Point location)
+	protected void visibleWorldUpdate(WorldSim visibleWorld, Point location)
 	{
-		for (int y = 0; y < visibleWorld.length; y++)
+		for (int y = 0; y < visibleWorld.getHeight(); y++)
 		{
-			for (int x = 0; x < visibleWorld[y].length; x++)
+			for (int x = 0; x < visibleWorld.getWidth(); x++)
 			{
-				if (visibleWorld[y][x].getCellType() == CellType.ct_information)
+				if (visibleWorld.getCell(x, y).getCellType() == CellType.ct_information)
 				{
-					if (((AbstractInformationCell)visibleWorld[y][x]).getInformationType() == InformationCell.ic_trafficLight)
+					if (((AbstractInformationCell)visibleWorld.getCell(x, y)).getInformationType() == InformationCell.ic_trafficLight)
 					{
-						TrafficLightCellInformation tlci = ((TrafficLightCell)visibleWorld[y][x]).getInformation();
+						TrafficLightCellInformation tlci = ((TrafficLightCell)visibleWorld.getCell(x, y)).getInformation();
 						trafficLightRed = tlci.redOn;
 						Point visibleWorldStopPoint = new Point(x + tlci.stopAtReference.getX(), y + tlci.stopAtReference.getY());
 						atWhiteLine = visibleWorldStopPoint == location;

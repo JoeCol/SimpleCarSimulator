@@ -11,7 +11,7 @@ public abstract class AbstractCar
 	private boolean crashed;
 	protected ImageIcon carIcon = null;
 	
-	protected abstract void visibleWorldUpdate(AbstractCell[][] visibleWorld, Point location);
+	protected abstract void visibleWorldUpdate(WorldSim visibleWorld, Point location);
 	protected abstract ArrayDeque<Direction> getSimulationRoute();
 	protected abstract boolean isFinished(Point point);
 	

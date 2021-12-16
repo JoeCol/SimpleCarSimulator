@@ -25,7 +25,7 @@ public class NonDrivingCell extends AbstractCell
 	@Override
 	public void paintComponent(Graphics g)
 	{
-		g.setColor(Color.GREEN);
+		g.setColor(Color.green.darker());
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 import core_car_sim.AbstractCell.CellType;
 
@@ -63,6 +64,18 @@ public class WorldSim
 			return ((RoadCell)getCell(x, y)).getSpeedLimit();
 		}
 		return 0;
+	}
+	
+	private AbstractCar getCarAtPosition(int x, int y)
+	{
+		for (AbstractCar c : cars)
+		{
+			if (carPositions.get(c).compareTo(new Point(x, y)) == 0)
+			{
+				return c;
+			}
+		}
+		return null;
 	}
 	
 	public boolean containsCar(int x, int y)
@@ -149,9 +162,16 @@ public class WorldSim
 		WorldSim visWorld = new WorldSim((visability * 2) + 1,(visability * 2) + 1);
 		visWorld.carAddedListeners = carAddedListeners;
 		visWorld.cars = cars;
-		visWorld.carPositions = carPositions;
+		//car positions need to be adjusted to visible world
+		visWorld.carPositions = new HashMap<AbstractCar, Point>();
 		int worldX;
 		int worldY;
+		for (Entry<AbstractCar, Point> cp : carPositions.entrySet())
+		{
+			//Adjust car positions based on current cars position
+			visWorld.carPositions.put(cp.getKey(), new Point((cp.getValue().getX() - currentPosition.getX()) + visability, 
+																(cp.getValue().getY() - currentPosition.getY()) + visability));
+		}
 		for (int x = 0-visability; x <= visability; x++)
 		{
 			for (int y = 0-visability; y <= visability; y++)

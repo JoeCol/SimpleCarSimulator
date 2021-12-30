@@ -196,9 +196,9 @@ public class CarSimGUI
 	private void updateGUIWorld()
 	{
 		pnlWorld.removeAll();
-		for (int y = 0; y < simworld.getHeight(); y++)
+		for (int x = 0; x < simworld.getWidth(); x++)
 		{
-			for (int x = 0; x < simworld.getWidth(); x++)
+			for (int y = 0; y < simworld.getHeight(); y++)
 			{
 				simworld.getCell(x, y).removeAll();
 				pnlWorld.add(simworld.getCell(x, y));

@@ -77,7 +77,7 @@ public class LoadWorld
 					int trly = Integer.parseInt(items[3]);
 					int stopsX = Integer.parseInt(items[4]);
 					int stopsY = Integer.parseInt(items[5]);
-					createdSim.setCell(new TrafficLightCell(charToDirection(items[6]), 3, new Point(stopsX, stopsY), new Point(trlx - stopsX, trly - stopsY)), new Point(trlx, trly));
+					createdSim.setCell(new TrafficLightCell(charToDirection(items[6]), 3, new Point(stopsX, stopsY), new Point(stopsX - trlx, stopsY - trly)), new Point(trlx, trly));
 					//((RoadCell)createdSim.getCell(stopsX, stopsY)).setMarking(RoadMarking.rm_HorizonalWhiteLine);
 					break;
 				case "car":

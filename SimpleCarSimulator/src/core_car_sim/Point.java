@@ -39,6 +39,19 @@ public class Point implements Comparable<Point>
 		}
 		return Integer.compare(y, p.getY());
 	}
+	
+	@Override
+	public boolean equals(Object p)
+	{
+		if (p.getClass() == getClass())
+		{
+			return (x == ((Point)p).getX()) && (y == ((Point)p).getY());
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	public void moveDirection(Direction nextDirection)
 	{

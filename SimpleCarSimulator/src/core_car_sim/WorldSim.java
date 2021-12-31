@@ -182,18 +182,18 @@ public class WorldSim
 				{
 					if (!looped)
 					{
-						visWorld.setCell(new NonVisibleCell(), y+visability, x+visability);
+						visWorld.setCell(new NonVisibleCell(), x+visability, y+visability);
 					}
 					else
 					{
 						worldX = (worldX < 0) ? getWidth() + worldX : worldX % getWidth();
 						worldY = (worldY < 0) ? getHeight() + worldY : worldY % getHeight();
-						visWorld.setCell(getCell(worldX, worldY), y+visability, x+visability);
+						visWorld.setCell(getCell(worldX, worldY), x+visability, y+visability);
 					}
 				}
 				else
 				{
-					visWorld.setCell(getCell(worldX, worldY), y+visability, x+visability);
+					visWorld.setCell(getCell(worldX, worldY), x+visability, y+visability);
 				}
 			}
 		}
